@@ -139,7 +139,6 @@
                                         </div>
                                     </a>
                                     <ul class="dropdown-menu dropdown-menu-end">
-                                        
                                         <li>
                                             <a class="dropdown-item" href="">
                                                 <div class="d-flex">
@@ -159,7 +158,7 @@
                                             <div class="dropdown-divider"></div>
                                         </li>
                                         <li>
-                                            <a class="dropdown-item" href="">
+                                            <a class="dropdown-item" href="{{ route('user', ['uuid' => Auth::user()->uuid]) }}">
                                                 <i class="ri-user-3-line ri-22px me-3"></i>
                                                 <span class="align-middle">Perfil</span>
                                             </a>
@@ -184,9 +183,9 @@
                             </ul>
                         </div>
 
-                        <form action="" method="GET" class="navbar-search-wrapper search-input-wrapper container-xxl d-none">
+                        <form action="{{ route('posts') }}" method="GET" class="navbar-search-wrapper search-input-wrapper container-xxl d-none">
                             @csrf
-                            <input type="text" name="search" class="form-control search-input border-0" placeholder="Pesquisar..." aria-label="Pesquisar..." />
+                            <input type="text" name="title" class="form-control search-input border-0" placeholder="Pesquisar..." aria-label="Pesquisar..." />
                             <i class="ri-close-fill search-toggler cursor-pointer"></i>
                         </form>
                     </div>
@@ -211,9 +210,9 @@
                                                 </a>
                                             </li>
                                             <li class="menu-item">
-                                                <a href="" class="menu-link">
-                                                    <i class="menu-icon ri-search-line ri-22px scaleX-n1-rtl"></i>
-                                                    <div data-i18n="Pesquisar">Pesquisar</div>
+                                                <a href="{{ route('user', ['uuid' => Auth::user()->uuid]) }}#invoices" class="menu-link">
+                                                    <i class="menu-icon ri-hand-coin-line ri-22px scaleX-n1-rtl"></i>
+                                                    <div data-i18n="Faturas & Pendências">Faturas & Pendências</div>
                                                 </a>
                                             </li>
                                         </ul>
@@ -247,14 +246,14 @@
                                         </ul>
                                     </li>
 
-                                    <li class="menu-item">
+                                    {{-- <li class="menu-item">
                                         <a href="{{ route('app') }}" class="menu-link menu-toggle">
                                             <i class="menu-icon tf-icons ri-mail-send-line"></i>
                                             <div data-i18n="News Letter">News Letter</div>
                                         </a>
                                         <ul class="menu-sub">
                                             <li class="menu-item">
-                                                <a href="{{ route('app') }}" class="menu-link">
+                                                <a href="{{ route('letters') }}" class="menu-link">
                                                     <i class="menu-icon tf-icons ri-send-plane-line"></i>
                                                     <div data-i18n="Disparar">Disparar</div>
                                                 </a>
@@ -272,7 +271,7 @@
                                                 </a>
                                             </li>
                                         </ul>
-                                    </li>
+                                    </li> --}}
 
                                     <li class="menu-item">
                                         <a href="{{ route('app') }}" class="menu-link menu-toggle">
@@ -280,12 +279,12 @@
                                             <div data-i18n="Integrações">Integrações</div>
                                         </a>
                                         <ul class="menu-sub">
-                                            <li class="menu-item">
+                                            {{-- <li class="menu-item">
                                                 <a href="{{ route('emails') }}" class="menu-link">
                                                     <i class="menu-icon tf-icons ri-mail-line"></i>
                                                     <div data-i18n="E-mails">E-mails</div>
                                                 </a>
-                                            </li>
+                                            </li> --}}
                                             <li class="menu-item">
                                                 <a href="{{ route('tokens') }}" class="menu-link">
                                                     <i class="menu-icon tf-icons ri-fingerprint-line"></i>
@@ -320,88 +319,6 @@
                                             </ul>
                                         </li>
                                     @endif
-
-                                    {{-- 
-                                    <li class="menu-item">
-                                        <a href="{{ route('notebooks') }}" class="menu-link">
-                                            <i class="menu-icon tf-icons ri-book-open-fill"></i>
-                                            <div data-i18n="Cadernos">Cadernos</div>
-                                        </a>
-                                    </li>
-
-                                    @if (Auth::user()->role === 'admin')
-                                        <li class="menu-item">
-                                            <a href="javascript:void(0)" class="menu-link menu-toggle">
-                                                <i class="menu-icon tf-icons ri-book-open-fill"></i>
-                                                <div data-i18n="Administração">Administração</div>
-                                            </a>
-                                            <ul class="menu-sub">
-                                                <li class="menu-item">
-                                                    <a href="{{ route('contents') }}" class="menu-link">
-                                                        <div data-i18n="Conteúdos">Conteúdos</div>
-                                                    </a>
-                                                </li>
-                                                <li class="menu-item">
-                                                    <a href="{{ route('boards') }}" class="menu-link">
-                                                        <div data-i18n="Bancas">Bancas</div>
-                                                    </a>
-                                                </li>
-                                                <li class="menu-item">
-                                                    <a href="{{ route('products') }}" class="menu-link">
-                                                        <div data-i18n="Produtos">Produtos</div>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </li>
-
-                                        <li class="menu-item">
-                                            <a href="javascript:void(0)" class="menu-link menu-toggle">
-                                                <i class="menu-icon tf-icons ri-account-pin-box-fill"></i>
-                                                <div data-i18n="Pessoas">Pessoas</div>
-                                            </a>
-                                            <ul class="menu-sub">
-                                                <li class="menu-item">
-                                                    <a href="{{ route('users', ['role' => 'student']) }}" class="menu-link">
-                                                        <div data-i18n="Estudantes">Estudantes</div>
-                                                    </a>
-                                                </li>
-                                                <li class="menu-item">
-                                                    <a href="{{ route('users', ['role' => 'teacher']) }}" class="menu-link">
-                                                        <div data-i18n="Professores">Professores</div>
-                                                    </a>
-                                                </li>
-                                                <li class="menu-item">
-                                                    <a href="{{ route('users', ['role' => 'admin']) }}" class="menu-link">
-                                                        <div data-i18n="Administradores">Administradores</div>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    @endif --}}
-
-                                    {{-- <li class="menu-item">
-                                        <a href="javascript:void(0)" class="menu-link menu-toggle">
-                                            <i class="menu-icon tf-icons ri-bookmark-fill"></i>
-                                            <div data-i18n="Produtos & Planos">Produtos & Planos</div>
-                                        </a>
-                                        <ul class="menu-sub">
-                                            <li class="menu-item">
-                                                <a href="" class="menu-link">
-                                                    <div data-i18n="Planos">Planos</div>
-                                                </a>
-                                            </li>
-                                            <li class="menu-item">
-                                                <a href="" class="menu-link">
-                                                    <div data-i18n="Produtos">Produtos</div>
-                                                </a>
-                                            </li>
-                                            <li class="menu-item">
-                                                <a href="" class="menu-link">
-                                                    <div data-i18n="Simulados">Simulados</div>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li> --}}
                                 </ul>
                             </div>
                         </aside>
@@ -472,7 +389,7 @@
                     title: 'Erro!',
                     text: '{{ session('error') }}',
                     icon: 'error',
-                    timer: 2000
+                    timer: 5000
                 })
             @endif
 
@@ -481,7 +398,7 @@
                     title: 'Atenção!',
                     text: '{{ session('infor') }}',
                     icon: 'info',
-                    timer: 2000
+                    timer: 5000
                 })
             @endif
             
@@ -490,7 +407,33 @@
                     title: 'Sucesso!',
                     text: '{{ session('success') }}',
                     icon: 'success',
-                    timer: 2000
+                    timer: 5000
+                })
+            @endif
+
+            @if(session('qrCodeImg') && session('invoiceUrl'))
+                Swal.fire({
+                    title: 'Pague com PIX',
+                    html: `
+                        <div style="text-align:center;">
+                            <img src="{{ session('qrCodeImg') }}" 
+                                style="width:250px;height:250px;border-radius:10px;" />
+                            <br><br>
+                            <div class="d-flex justify-content-center gap-2">
+                                <button id="btn-copy-pix" onClick="onClip('{{ session('qrCode') }}')" class="btn btn-outline-success">
+                                    Copiar Código PIX
+                                </button>
+                                <a id="btn-boleto" href="{{ session('invoiceUrl') }}" target="_blank" class="btn btn-outline-dark">
+                                    Acessar Boleto
+                                </a>
+                            </div>
+                        </div>
+                    `,
+                    width: 420,
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    showConfirmButton: false,
                 })
             @endif
 
@@ -578,14 +521,14 @@
                 navigator.clipboard.writeText(text).then(() => {
                     Swal.fire({
                         title: 'Sucesso!',
-                        text: 'Link copiado',
+                        text: 'Copiado',
                         icon: 'success',
                         timer: 5000
                     });
                 }).catch(err => {
                     Swal.fire({
                         title: 'Erro!',
-                        text: 'Link não copiado, tente novamente!',
+                        text: 'Não copiado, tente novamente!',
                         icon: 'error',
                         timer: 5000
                     });

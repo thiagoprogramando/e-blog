@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->text('content');
             $table->json('attachments')->nullable();
             $table->enum('status', ['draft', 'scheduled', 'sending', 'sent'])->default('draft');
-            $table->timestamp('scheduled_for');
+            $table->timestamp('scheduled_for')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

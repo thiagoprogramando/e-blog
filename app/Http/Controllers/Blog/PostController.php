@@ -61,6 +61,14 @@ class PostController extends Controller {
         $post->meta_description     = $request->meta_description;
         $post->published_at         = $request->published_at;
 
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            if ($file->isValid()) {
+                $path = $file->store('photos', 'public');
+                $post->photo = asset('storage/' . $path);
+            }
+        }
+
         if ($request->hasFile('attachments')) {
             $attachments = [];
 
@@ -111,6 +119,19 @@ class PostController extends Controller {
         }
         if ($request->has('published_at')) {
             $post->published_at = $request->published_at;
+        }
+
+        if ($request->hasFile('photo')) {
+            
+            if ($post->photo) {
+                unlink($post->photo);
+            }
+            
+            $file = $request->file('photo');
+            if ($file->isValid()) {
+                $path = $file->store('photos', 'public');
+                $post->photo = asset('storage/' . $path);
+            }
         }
 
         if ($request->hasFile('attachments')) {

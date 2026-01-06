@@ -19,9 +19,10 @@ class Invoice extends Model {
         'description',
         'value',
         'payment_token',
-        'payment_status',
         'payment_url',
         'payment_due_date',
+        'payment_date',
+        'payment_status',
         'payment_split',
     ];
 
@@ -36,10 +37,9 @@ class Invoice extends Model {
     public function statusLabel() {
 
         return match ($this->payment_status) {
-            'pending'   => 'Pendente',
-            'paid'      => 'Pago',
-            'canceled'  => 'Cancelado',
-            'overdue'   => 'Atrasado',
+            'PENDING'   => 'Pendente',
+            'PAID'      => 'Pago',
+            'OVERDUE'   => 'Atrasado',
             default     => '---',
         };
     }

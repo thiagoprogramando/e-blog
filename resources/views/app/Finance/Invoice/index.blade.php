@@ -76,7 +76,7 @@
                         </div>
                         <div class="modal-footer btn-group">
                             <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal"> Fechar </button>
-                            <button type="submit" class="btn btn-success">Pesquisar</button>
+                            <button type="submit" class="btn btn-dark">Pesquisar</button>
                         </div>
                     </div>
                 </div>
@@ -130,7 +130,7 @@
                         </div>
                     </div>
                     <div class="card-info">
-                        <h5 class="mb-0">R$ {{ number_format($invoices->where('payment_status', '!=', 'paid')->sum('value'), 2, ',', '.') }}</h5>
+                        <h5 class="mb-0">R$ {{ number_format($invoices->where('payment_status', '!=', 'PAID')->sum('value'), 2, ',', '.') }}</h5>
                         <p class="mb-0">Valor Pendente</p>
                     </div>
                 </div>
@@ -158,8 +158,8 @@
                                 </div>
                                 <form action="{{ route('deleted-invoice', ['uuid' => $invoice->uuid]) }}" method="POST" class="add-btn delete">
                                     @csrf
-                                    <button type="button" class="btn btn-success text-white btn-sm" title="Editar Fatura" data-bs-toggle="modal" data-bs-target="#updatedModal{{ $invoice->uuid }}"><i class="ri-menu-search-line"></i></button>
-                                    <button type="submit" class="btn btn-danger btn-sm" title="Excluir Fatura"><i class="ri-delete-bin-line"></i></button>
+                                    <button type="button" class="btn btn-outline-dark btn-sm" title="Editar Fatura" data-bs-toggle="modal" data-bs-target="#updatedModal{{ $invoice->uuid }}"><i class="ri-menu-search-line"></i></button>
+                                    <button type="submit" class="btn btn-outline-dark btn-sm" title="Excluir Fatura"><i class="ri-delete-bin-line"></i></button>
                                 </form>
                             </div>
                         </div>

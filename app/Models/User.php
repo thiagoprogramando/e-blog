@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -17,11 +18,16 @@ class User extends Authenticatable {
         'company_token',
         'avatar',
         'name',
+        'cpfcnpj',
         'bio',
         'email',
         'password',
         'role',
     ];
+
+    public function invoices() {
+        return $this->hasMany(Invoice::class);
+    }
 
     protected $hidden = [
         'password',
@@ -48,5 +54,40 @@ class User extends Authenticatable {
         }
 
         return $nameParts[0] . ' ' . $nameParts[1];
+    }
+
+    public function hasActiveSubscription() {
+       
+        $invoice = $this->invoices()->where('payment_status', 'PAID')
+                        ->whereHas('plan', function ($query) {
+                            $query->whereIn('time', [
+                                'monthly',
+                                'semi-annual',
+                                'yearly',
+                                'lifetime',
+                            ]);
+                        })->latest('created_at')->first();
+
+        if (!$invoice || !$invoice->plan) {
+            return false;
+        }
+
+        $timeMap = [
+            'monthly'      => 30,
+            'semi-annual'  => 182,
+            'yearly'       => 365,
+            'lifetime'     => null,
+        ];
+
+        $time = $invoice->plan->time;
+        if (!array_key_exists($time, $timeMap)) {
+            return false;
+        }
+
+        if ($time === 'lifetime') {
+            return true;
+        }
+
+        return now()->lessThanOrEqualTo(Carbon::parse($invoice->payment_date)->addDays($timeMap[$time]));
     }
 }

@@ -32,7 +32,6 @@
                                         <label for="description">Descrição</label>
                                     </div>
                                 </div>
-                                
                                 <div class="col-12 col-sm-12 col-md-8 col-lg-8 mb-2">
                                     <div class="form-floating form-floating-outline">
                                         <input type="text" name="url" id="url" class="form-control" placeholder="URL (Serão aceitos apenas requisições)"/>
@@ -55,7 +54,7 @@
                         </div>
                         <div class="modal-footer btn-group">
                             <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal"> Fechar </button>
-                            <button type="submit" class="btn btn-success">Confirmar</button>
+                            <button type="submit" class="btn btn-dark">Confirmar</button>
                         </div>
                     </div>
                 </div>
@@ -83,9 +82,9 @@
                                 </div>
                                 <form action="{{ route('deleted-token', ['token' => $token->token]) }}" method="POST" class="add-btn delete">
                                     @csrf
-                                    <button type="button" onclick="onClip('{{ $token->token }}')" class="btn btn-info text-white btn-sm" title="Copiar Token"><i class="ri-file-copy-line"></i></button>
-                                    <button type="button" class="btn btn-success text-white btn-sm" title="Editar Token" data-bs-toggle="modal" data-bs-target="#updatedModal{{ $token->token }}"><i class="ri-menu-search-line"></i></button>
-                                    <button type="submit" class="btn btn-danger btn-sm" title="Excluir Token"><i class="ri-delete-bin-line"></i></button>
+                                    <button type="button" onclick="onClip('{{ $token->token }}')" class="btn btn-outline-dark btn-sm" title="Copiar Token"><i class="ri-file-copy-line"></i></button>
+                                    <button type="button" class="btn btn-outline-dark btn-sm" title="Editar Token" data-bs-toggle="modal" data-bs-target="#updatedModal{{ $token->token }}"><i class="ri-menu-search-line"></i></button>
+                                    <button type="submit" class="btn btn-dark btn-sm" title="Excluir Token"><i class="ri-delete-bin-line"></i></button>
                                 </form>
                             </div>
                         </div>
@@ -143,7 +142,7 @@
                                     </div>
                                     <div class="modal-footer btn-group">
                                         <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal"> Fechar </button>
-                                        <button type="submit" class="btn btn-success">Confirmar</button>
+                                        <button type="submit" class="btn btn-dark">Confirmar</button>
                                     </div>
                                 </div>
                             </div>

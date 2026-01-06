@@ -24,23 +24,4 @@ class Media extends Model {
     public function company() {
         return $this->belongsTo(User::class, 'company_id');
     }
-
-    public function getFilePathAttribute() {
-        return str_replace(asset('storage') . '/', '', $this->file);
-    }
-
-    public function getFileSizeAttribute() {
-        if (!Storage::disk('public')->exists($this->file)) {
-            return null;
-        }
-
-        $bytes = Storage::disk('public')->size($this->file);
-        return number_format($bytes / 1048576, 2);
-    }
-
-    public function getFileTypeAttribute() {
-        return Storage::disk('public')->exists($this->file_path)
-            ? Storage::disk('public')->mimeType($this->file_path)
-            : null;
-    }
 }

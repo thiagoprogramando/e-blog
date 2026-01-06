@@ -1,6 +1,10 @@
 @extends('app.layout')
 @section('content')
 
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/quill/typography.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/quill/katex.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/quill/editor.css') }}"/>
+
     <div class="col-12 col-sm-12 col-md-12 col-lg-12">
         <h4 class="card-title">{{ $post->title }}</h4>
         <hr>
@@ -11,9 +15,15 @@
                         <h5 class="card-title m-0 me-2">Dados</h5>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('updated-post', ['uuid' => $post->uuid]) }}" method="POST">
+                        <form action="{{ route('updated-post', ['uuid' => $post->uuid]) }}" method="POST" id="updatedPost">
                             @csrf
                             <div class="row">
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                    <div class="form-floating form-floating-outline mb-2">
+                                        <input type="file" id="photo" name="photo" multiple class="form-control" placeholder="Imagem de Capa"/>
+                                        <label for="photo">Imagem de Capa</label>
+                                    </div>
+                                </div>
                                 <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                                     <div class="form-floating form-floating-outline mb-2">
                                         <input type="text" class="form-control" name="title" placeholder="Ex: Como viajar para o Japão?" value="{{ $post->title }}"/>
@@ -44,10 +54,11 @@
                                         <label for="TagifyCustomInlineSuggestion">Tags</label>
                                     </div>
                                 </div>
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                                    <div class="form-floating form-floating-outline mb-2">
-                                        <textarea class="form-control h-px-100 editor" name="body" id="body" placeholder="Para viajar ao Japão é necessário uma Passagem...">{{ $post->body }}</textarea>
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-2">
+                                    <div class="full-editor">
+                                        {!! $post->body !!}
                                     </div>
+                                    <textarea name="body" id="body" hidden></textarea>
                                 </div>
                                 <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                                     <a class="btn btn-dark mt-3 me-1" data-bs-toggle="collapse" href="#collapseMeta" role="button" aria-expanded="false" aria-controls="collapseMeta">Configurar Meta Tags</a>
@@ -71,8 +82,10 @@
                                 </div>
                             </div>
                             <div class="card-footer d-flex justify-content-end">
-                                <button type="submit" class="btn btn-success me-1">Salvar</button>
-                                <a href="{{ route('posts') }}" class="btn btn-danger">Cancelar</a>
+                                <duv class="btn-group">
+                                    <a href="{{ route('posts') }}" class="btn btn-outline-dark">Cancelar</a>
+                                    <button type="submit" class="btn btn-outline-dark me-1">Salvar</button>
+                                </duv>
                             </div>
                         </form>
                     </div>
@@ -122,21 +135,22 @@
                                     </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
-                                    
-                                    @foreach (json_decode($post->attachments) as $attachment)
-                                    <tr>
-                                        <td>
-                                            <a href="{{ $attachment->url }}" target="_blank" class="fw-medium">{{ $attachment->name }}</a>
-                                        </td>
-                                        <td>
-                                            <form action="{{ route('deleted-post-attachment', ['uuid' => $post->uuid]) }}" method="POST">
-                                                @csrf
-                                                <input type="hidden" name="attachment_url" value="{{ $attachment->url }}">
-                                                <button type="submit" class="btn btn-danger btn-sm"><i class="ri-delete-bin-line"></i></button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                    @endforeach
+                                    @isset($post->attachments)
+                                        @foreach (json_decode($post->attachments) as $attachment)
+                                            <tr>
+                                                <td>
+                                                    <a href="{{ $attachment->url }}" target="_blank" class="fw-medium">{{ $attachment->name }}</a>
+                                                </td>
+                                                <td>
+                                                    <form action="{{ route('deleted-post-attachment', ['uuid' => $post->uuid]) }}" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="attachment_url" value="{{ $attachment->url }}">
+                                                        <button type="submit" class="btn btn-danger btn-sm"><i class="ri-delete-bin-line"></i></button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    @endisset
                                 </tbody>
                             </table>
                         </div>
@@ -146,6 +160,54 @@
         </div>
     </div>
 
-    <script src="https://cdn.tiny.cloud/1/tgezwiu6jalnw1mma8qnoanlxhumuabgmtavb8vap7357t22/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
-    <script src="{{ asset('assets/js/tinymce.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/quill/katex.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/quill/quill.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fullToolbar = [
+                [
+                    { font: [] },
+                    { size: [] }
+                ],
+                ['bold', 'italic', 'underline', 'strike'],
+                    [
+                    { color: [] },
+                    { background: [] }
+                ],
+                [
+                    { script: 'super' },
+                    { script: 'sub' }
+                ],
+                [
+                    { header: '1' },
+                    { header: '2' },
+                    'blockquote',
+                    'code-block'
+                ],
+                [
+                    { list: 'ordered' },
+                    { list: 'bullet' },
+                    { indent: '-1' },
+                    { indent: '+1' }
+                ],
+                [{ direction: 'rtl' }],
+                ['link', 'image', 'video', 'formula'],
+                ['clean']
+            ];
+
+            window.editor = new Quill('.full-editor', {
+                bounds: '.full-editor',
+                placeholder: 'Digite o conteúdo do POST...',
+                modules: {
+                    formula: true,
+                    toolbar: fullToolbar,
+                },
+                theme: 'snow'
+            });
+        });
+
+        document.getElementById('updatedPost').addEventListener('submit', function (e) {
+            document.getElementById('body').value = window.editor.root.innerHTML.trim();
+        });
+    </script>
 @endsection

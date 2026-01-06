@@ -16,6 +16,7 @@ class Post extends Model {
         'uuid',
         'company_id',
         'created_by',
+        'photo',
         'title',
         'body',
         'attachments',
@@ -30,12 +31,16 @@ class Post extends Model {
     ];
 
     public function setTitleAttribute($value) {
+
         $this->attributes['title'] = $value;
         if (empty($this->attributes['slug'])) {
-            $slug = Str::slug($value);
-            $count = static::where('slug', 'LIKE', "{$slug}%")->count();
 
-            $this->attributes['slug'] = $count ? "{$slug}-{$count}" : $slug;
+            $baseSlug   = Str::slug($value);
+            $exists     = static::withTrashed()
+                                ->where('slug', $baseSlug)
+                                ->exists();
+
+            $this->attributes['slug'] = $exists ? "{$baseSlug}-" . $this->uuid : $baseSlug;
         }
     }
 

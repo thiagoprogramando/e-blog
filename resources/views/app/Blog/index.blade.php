@@ -1,11 +1,15 @@
 @extends('app.layout')
 @section('content')
 
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/quill/typography.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/quill/katex.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/quill/editor.css') }}"/>
+
     <div class="col-12 col-sm-12 col-md-12 col-lg-12">
         <div class="kanban-add-new-board mb-5">
             <a class="kanban-add-board-btn" for="kanban-add-board-input" data-bs-toggle="modal" data-bs-target="#createdModal">
                 <i class="ri-add-line"></i>
-                <span class="align-middle">Nova Postagem</span>
+                <span class="align-middle">Novo POST</span>
             </a>
             <label class="kanban-add-board-btn" for="kanban-add-board-input" data-bs-toggle="modal" data-bs-target="#filterModal">
                 <i class="ri-filter-line"></i>
@@ -15,7 +19,7 @@
 
         <div class="modal fade" id="createdModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
-                <form action="{{ route('created-post') }}" method="POST" enctype="multipart/form-data" class="modal-content">
+                <form action="{{ route('created-post') }}" method="POST" enctype="multipart/form-data" class="modal-content" id="createdPost">
                     @csrf
                     <div class="modal-header">
                         <h4 class="modal-title" id="modalFullTitle">Nova Publicação</h4>
@@ -23,6 +27,12 @@
                     </div>
                     <div class="modal-body">
                         <div class="row g-2">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-floating form-floating-outline">
+                                    <input type="file" id="photo" name="photo" multiple class="form-control" placeholder="Imagem de Capa"/>
+                                    <label for="photo">Imagem de Capa</label>
+                                </div>
+                            </div>
                             <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="form-floating form-floating-outline mb-2">
                                     <input type="text" class="form-control" name="title" placeholder="Ex: Como viajar para o Japão?" required/>
@@ -47,10 +57,11 @@
                                     <label>Data de Publicação</label>
                                 </div>
                             </div>
-                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                                <div class="form-floating form-floating-outline mb-2">
-                                    <textarea class="form-control h-px-100 editor" name="body" id="body" placeholder="Para viajar ao Japão é necessário uma Passagem..."></textarea>
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-2">
+                                <div class="full-editor">
+                                    <h6>Conteúdo do POST</h6>
                                 </div>
+                                <textarea name="body" id="body" hidden></textarea>
                             </div>
                             <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                                 <div class="form-floating form-floating-outline">
@@ -86,16 +97,16 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"> Fechar </button>
-                        <button type="submit" class="btn btn-success">Publicar</button>
+                    <div class="modal-footer btn-group">
+                        <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal"> Fechar </button>
+                        <button type="submit" class="btn btn-dark">Publicar</button>
                     </div>
                 </form>
             </div>
         </div>
 
         <div class="modal fade" id="filterModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-dialog" role="document">
                 <form action="{{ route('posts') }}" method="GET" class="modal-content">
                     @csrf
                     <div class="modal-header">
@@ -110,7 +121,7 @@
                                     <label>Título</label>
                                 </div>
                             </div>
-                            <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                                 <div class="form-floating form-floating-outline mb-2">
                                     <div class="select2-primary">
                                         <select name="status" id="status" class="select2 form-select">
@@ -122,13 +133,13 @@
                                     <label for="status">Status</label>
                                 </div>
                             </div>
-                            <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-6">
                                 <div class="form-floating form-floating-outline mb-2">
                                     <input type="date" class="form-control" name="published_at" placeholder="Ex: 10/10/2025"/>
                                     <label>Data de Publicação</label>
                                 </div>
                             </div>
-                            <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
                                 <div class="form-floating form-floating-outline">
                                     <input id="TagifyCustomInlineSuggestion" name="tags" class="form-control h-auto" placeholder="Aperte Enter após escrever" value=""/>
                                     <label for="TagifyCustomInlineSuggestion">Tags</label>
@@ -136,9 +147,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal"> Fechar </button>
-                        <button type="submit" class="btn btn-success">Pesquisar</button>
+                    <div class="modal-footer btn-group">
+                        <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal"> Fechar </button>
+                        <button type="submit" class="btn btn-dark">Pesquisar</button>
                     </div>
                 </form>
             </div>
@@ -148,7 +159,7 @@
             <div class="list-group p-0 m-0">
                 @foreach ($posts as $post)
                     <div class="list-group-item list-group-item-action d-flex align-items-center cursor-pointer waves-effect waves-light">
-                        <img src="{{ $post->image ? asset('storage/'.$post->image) : asset('assets/img/avatars/man.png') }}" alt="Produto Imagem" class="rounded-circle me-3" width="40">
+                        <img src="{{ $post->photo ? asset($post->photo) : asset('assets/img/avatars/man.png') }}" alt="Produto Imagem" class="rounded-3 me-3" width="60">
                         <div class="w-100">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="user-info">
@@ -163,7 +174,7 @@
                                             <small>{{ $post->tagsLabel() }}</small>
                                         </div>
                                         <div class="user-status me-2 d-flex align-items-center">
-                                            <span class="badge badge-dot bg-warning me-1"></span>
+                                            <span class="badge badge-dot bg-danger me-1"></span>
                                             <small>Likes: {{ $post->likes }}</small>
                                         </div>
                                         <div class="user-status me-2 d-flex align-items-center">
@@ -188,6 +199,54 @@
         </div>
     </div>
 
-    <script src="https://cdn.tiny.cloud/1/tgezwiu6jalnw1mma8qnoanlxhumuabgmtavb8vap7357t22/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
-    <script src="{{ asset('assets/js/tinymce.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/quill/katex.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/quill/quill.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fullToolbar = [
+                [
+                    { font: [] },
+                    { size: [] }
+                ],
+                ['bold', 'italic', 'underline', 'strike'],
+                    [
+                    { color: [] },
+                    { background: [] }
+                ],
+                [
+                    { script: 'super' },
+                    { script: 'sub' }
+                ],
+                [
+                    { header: '1' },
+                    { header: '2' },
+                    'blockquote',
+                    'code-block'
+                ],
+                [
+                    { list: 'ordered' },
+                    { list: 'bullet' },
+                    { indent: '-1' },
+                    { indent: '+1' }
+                ],
+                [{ direction: 'rtl' }],
+                ['link', 'image', 'video', 'formula'],
+                ['clean']
+            ];
+
+            window.editor = new Quill('.full-editor', {
+                bounds: '.full-editor',
+                placeholder: 'Digite o conteúdo do POST...',
+                modules: {
+                    formula: true,
+                    toolbar: fullToolbar,
+                },
+                theme: 'snow'
+            });
+        });
+
+        document.getElementById('createdPost').addEventListener('submit', function (e) {
+            document.getElementById('body').value = window.editor.root.innerHTML.trim();
+        });
+    </script>
 @endsection

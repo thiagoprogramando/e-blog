@@ -11,7 +11,8 @@ return new class extends Migration {
             $table->id();
             $table->uuid('uuid')->unique();
             $table->string('company_id');
-            $table->foreignId('created_by')->constrained('users')->nullOnDelete();
+            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->string('photo')->nullable();
             $table->string('title');
             $table->longText('body')->nullable();
             $table->json('attachments')->nullable();

@@ -80,7 +80,7 @@
                         </div>
                         <div class="modal-footer btn-group">
                             <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal"> Fechar </button>
-                            <button type="submit" class="btn btn-success">Enviar</button>
+                            <button type="submit" class="btn btn-dark">Enviar</button>
                         </div>
                     </div>
                 </div>
@@ -123,8 +123,8 @@
                         </div>
                     </div>
                     <div class="card-info">
-                        <h5 class="mb-0">0</h5>
-                        <p class="mb-0">Assinaturas</p>
+                        <h5 class="mb-0">{{ $plans->sum('paid_invoices_count') }}</h5>
+                        <p class="mb-0">Assinaturas/Renovações</p>
                     </div>
                 </div>
                 <div class="d-flex align-items-center gap-3">
@@ -152,8 +152,8 @@
                                     <h6 class="mb-1 fw-normal">{{ $plan->title }}</h6>
                                     <div class="d-flex align-items-center">
                                         <div class="user-status me-2 d-flex align-items-center">
-                                            <span class="badge badge-dot bg-dark me-1"></span>
-                                            <small>Assinaturas: </small>
+                                            <span class="badge badge-dot bg-success me-1"></span>
+                                            <small>Assinaturas/Renovações: {{ $plan->paid_invoices_count }}</small>
                                         </div>
                                         <div class="user-status me-2 d-flex align-items-center">
                                             <span class="badge badge-dot bg-info me-1"></span>
@@ -163,8 +163,8 @@
                                 </div>
                                 <form action="{{ route('deleted-plan', ['uuid' => $plan->uuid]) }}" method="POST" class="add-btn delete">
                                     @csrf
-                                    <button type="button" class="btn btn-success text-white btn-sm" title="Editar Conteúdo" data-bs-toggle="modal" data-bs-target="#updatedModal{{ $plan->uuid }}"><i class="ri-menu-search-line"></i></button>
-                                    <button type="submit" class="btn btn-danger btn-sm" title="Excluir Conteúdo"><i class="ri-delete-bin-line"></i></button>
+                                    <button type="button" class="btn btn-outline-dark btn-sm" title="Editar Plano" data-bs-toggle="modal" data-bs-target="#updatedModal{{ $plan->uuid }}"><i class="ri-menu-search-line"></i></button>
+                                    <button type="submit" class="btn btn-outline-dark btn-sm" title="Excluir Plano"><i class="ri-delete-bin-line"></i></button>
                                 </form>
                             </div>
                         </div>
@@ -241,7 +241,7 @@
                                     </div>
                                     <div class="modal-footer btn-group">
                                         <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal"> Fechar </button>
-                                        <button type="submit" class="btn btn-success">Enviar</button>
+                                        <button type="submit" class="btn btn-dark">Enviar</button>
                                     </div>
                                 </div>
                             </div>

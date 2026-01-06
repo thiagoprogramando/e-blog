@@ -31,7 +31,7 @@ class Plan extends Model {
     public function hasInvoice($user = null, $status = null): bool {
         
         $user   = $user ?? Auth::id();
-        $status = $status ?? 1;
+        $status = $status ?? 'PAID';
         return $this->invoices()
             ->where('user_id', $user)
             ->where('payment_status', $status)

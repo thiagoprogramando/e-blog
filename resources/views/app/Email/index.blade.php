@@ -84,7 +84,7 @@
                         </div>
                         <div class="modal-footer btn-group">
                             <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal"> Fechar </button>
-                            <button type="submit" class="btn btn-success">Confirmar</button>
+                            <button type="submit" class="btn btn-dark">Confirmar</button>
                         </div>
                     </div>
                 </div>
@@ -112,8 +112,8 @@
                                 </div>
                                 <form action="{{ route('deleted-email', ['uuid' => $email->uuid]) }}" method="POST" class="add-btn delete">
                                     @csrf
-                                    <button type="button" class="btn btn-success text-white btn-sm" title="Editar Email" data-bs-toggle="modal" data-bs-target="#updatedModal{{ $email->uuid }}"><i class="ri-menu-search-line"></i></button>
-                                    <button type="submit" class="btn btn-danger btn-sm" title="Excluir Email"><i class="ri-delete-bin-line"></i></button>
+                                    <button type="button" class="btn btn-outline-dark text-white btn-sm" title="Editar Email" data-bs-toggle="modal" data-bs-target="#updatedModal{{ $email->uuid }}"><i class="ri-menu-search-line"></i></button>
+                                    <button type="submit" class="btn btn-outline-dark btn-sm" title="Excluir Email"><i class="ri-delete-bin-line"></i></button>
                                 </form>
                             </div>
                         </div>
@@ -194,7 +194,7 @@
                                     </div>
                                     <div class="modal-footer btn-group">
                                         <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal"> Fechar </button>
-                                        <button type="submit" class="btn btn-success">Confirmar</button>
+                                        <button type="submit" class="btn btn-dark">Confirmar</button>
                                     </div>
                                 </div>
                             </div>

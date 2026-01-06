@@ -34,18 +34,23 @@ class MediaController extends Controller {
             'media.max' => 'O arquivo não pode ser maior que 10MB!',
         ]);
 
+        if (!$request->hasFile('media') || !$request->file('media')->isValid()) {
+            return back()->withErrors(['media' => 'Arquivo inválido']);
+        }
+
+        $file = $request->file('media');
+        $path = $file->store('medias', 'public');
         $uuid = Str::uuid();
 
-        $media              = new Media();
+        $media = new Media();
         $media->uuid        = $uuid;
-        $media->user_id     = Auth::user()->id;
-        $media->company_id  = Auth::user()->company_id ?? Auth::user()->id;
-        $media->title       = $request->title ?? $request->media->getClientOriginalName();
-        $media->file        = $request->media->store('medias');
+        $media->user_id     = Auth::id();
+        $media->company_id  = Auth::user()->company_id ?? Auth::id();
+        $media->title       = $request->title ?? $file->getClientOriginalName();
+        $media->file        = $path;
         if ($media->save()) {
             return redirect()->back()->with('success', 'Mídia salva com sucesso!');
         }
-
         return redirect()->back()->with('error', 'Erro ao salvar mídia, tente novamente!');
     }
 

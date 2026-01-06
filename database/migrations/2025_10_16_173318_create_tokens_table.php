@@ -10,7 +10,7 @@ return new class extends Migration {
         Schema::create('tokens', function (Blueprint $table) {
             $table->id();
             $table->uuid('token')->unique();
-            $table->foreignId('company_id')->constrained('users')->nullOnDelete(); // Deleta se a user for deletada
+            $table->foreignId('company_id')->nullable()->constrained('users')->nullOnDelete(); // Deleta se a user for deletada
             $table->string('title');
             $table->text('description')->nullable();
             $table->string('url')->nullable();

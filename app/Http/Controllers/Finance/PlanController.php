@@ -7,6 +7,7 @@ use App\Models\Plan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class PlanController extends Controller {
     
@@ -24,6 +25,12 @@ class PlanController extends Controller {
         if (!empty($request->time)) {
             $query->where('time', $request->time);
         }
+
+        $query->withCount([
+            'invoices as paid_invoices_count' => function ($q) {
+                $q->where('payment_status', 'PAID');
+            }
+        ]);
 
         return view('app.Finance.Plan.index', [
             'plans' => $query->paginate(30),

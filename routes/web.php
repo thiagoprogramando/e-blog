@@ -9,11 +9,14 @@ use App\Http\Controllers\Finance\BuyController;
 use App\Http\Controllers\Finance\CouponController;
 use App\Http\Controllers\Finance\InvoiceController;
 use App\Http\Controllers\Finance\PlanController;
+use App\Http\Controllers\Gateway\CoraController;
 use App\Http\Controllers\Letter\GroupController;
 use App\Http\Controllers\Letter\LeadController;
+use App\Http\Controllers\Letter\LetterController;
 use App\Http\Controllers\Media\MediaController;
 use App\Http\Controllers\Token\EmailController;
 use App\Http\Controllers\Token\TokenController;
+use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LoginController::class, 'index'])->name('login');
@@ -26,7 +29,7 @@ Route::get('/forgout/{code?}', [ForgoutController::class, 'index'])->name('forgo
 Route::post('/forgout-password', [ForgoutController::class, 'store'])->name('forgout-password');
 Route::post('/recover-password/{code}', [ForgoutController::class, 'update'])->name('recover-password');
 
-Route::get('/register-lead/{uuid}', [LeadController::class, 'store'])->name('register-lead');
+Route::get('/invite/{uuid}', [LeadController::class, 'store'])->name('invite');
 
 Route::middleware(['auth'])->group(function () {
 
@@ -34,6 +37,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/buy', [BuyController::class, 'index'])->name('buy');
     Route::post('/created-buy/{plan}', [BuyController::class, 'store'])->name('created-buy');
+
+    Route::get('/user/{uuid}', [UserController::class, 'show'])->name('user');
+    Route::post('/updated-user/{uuid}', [UserController::class, 'update'])->name('updated-user');
 
     Route::middleware(['checkMonthly'])->group(function () { 
 
@@ -92,6 +98,10 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/created-coupon', [CouponController::class, 'store'])->name('created-coupon');
         Route::post('/updated-coupon/{uuid}', [CouponController::class, 'update'])->name('updated-coupon');
         Route::post('/deleted-coupon/{uuid}', [CouponController::class, 'destroy'])->name('deleted-coupon');
+
+        Route::get('/users', [UserController::class, 'index'])->name('users');
+        Route::post('/created-user', [UserController::class, 'store'])->name('created-user');
+        Route::post('/deleted-user/{uuid}', [UserController::class, 'destroy'])->name('deleted-user');
     });
 
     Route::get('/logout', [LoginController::class, 'logout'])->name('logout');

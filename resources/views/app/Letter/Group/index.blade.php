@@ -128,7 +128,7 @@
                                 </div>
                                 <form action="{{ route('deleted-group', ['uuid' => $group->uuid]) }}" method="POST" class="add-btn delete">
                                     @csrf
-                                    <button type="button" onclick="onClip('{{ route('register-lead', ['uuid' => $group->uuid]) }}')" class="btn btn-info text-white btn-sm" title="Copiar Link do Grupo"><i class="ri-file-copy-line"></i></button>
+                                    <button type="button" onclick="onClip('{{ route('invite', ['uuid' => $group->uuid]) }}')" class="btn btn-info text-white btn-sm" title="Copiar Link do Grupo"><i class="ri-file-copy-line"></i></button>
                                     <button type="button" class="btn btn-success text-white btn-sm" title="Editar Grupo" data-bs-toggle="modal" data-bs-target="#updatedModal{{ $group->uuid }}"><i class="ri-menu-search-line"></i></button>
                                     <button type="submit" class="btn btn-danger btn-sm" title="Excluir"><i class="ri-delete-bin-line"></i></button>
                                 </form>

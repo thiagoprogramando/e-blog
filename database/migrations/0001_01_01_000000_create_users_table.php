@@ -13,6 +13,7 @@ return new class extends Migration {
             $table->uuid('company_token')->nullable()->unique();
             $table->string('avatar')->nullable();
             $table->string('name');
+            $table->string('cpfcnpj', 14)->nullable()->unique();
             $table->text('bio')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();

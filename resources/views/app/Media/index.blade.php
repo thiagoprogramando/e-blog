@@ -1,7 +1,7 @@
 @extends('app.layout')
 @section('content')
 
-    <div class="col-12 col-sm-12 col-md-7 col-lg-7">
+    <div class="col-12">
         <div class="kanban-add-new-board mb-5">
             <a href="#" class="kanban-add-board-btn" for="kanban-add-board-input" data-bs-toggle="modal" data-bs-target="#createdModal">
                 <i class="ri-add-line"></i>
@@ -40,7 +40,7 @@
                         </div>
                         <div class="modal-footer btn-group">
                             <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal"> Fechar </button>
-                            <button type="submit" class="btn btn-success">Confirmar</button>
+                            <button type="submit" class="btn btn-dark">Confirmar</button>
                         </div>
                     </div>
                 </div>
@@ -68,13 +68,15 @@
                         </div>
                         <div class="modal-footer btn-group">
                             <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal"> Fechar </button>
-                            <button type="submit" class="btn btn-success">Confirmar</button>
+                            <button type="submit" class="btn btn-dark">Confirmar</button>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
-        
+    </div>
+
+    <div class="col-12 col-sm-12 col-md-5 col-lg-5">
         <div class="card demo-inline-spacing">
             <div class="list-group p-0 m-0">
                 @foreach ($medias as $media)
@@ -82,21 +84,11 @@
                         <div class="w-100">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="user-info">
-                                    <h6 class="mb-1 fw-normal">{{ $media->title }}</h6>
-                                    <div class="d-flex align-items-center">
-                                        <div class="user-status me-2 d-flex align-items-center">
-                                            <span class="badge badge-dot bg-success me-1"></span>
-                                            <small class="me-3"><a href="{{ asset('storage/' . $media->file) }}" target="_blank">Acessar</a></small>
-                                            <span class="badge badge-dot bg-info me-1"></span>
-                                            <small class="me-3">{{ $media->file_size }} MB</small>
-                                            <span class="badge badge-dot bg-warning me-1"></span>
-                                            <small class="me-3">{{ $media->file_type }}</small>
-                                        </div>
-                                    </div>
+                                    <h6 class="mb-1 fw-normal"><a href="{{ asset('storage/' . $media->file) }}" target="_blank">{{ $media->title }}</a></h6>
                                 </div>
                                 <form action="{{ route('deleted-media', ['uuid' => $media->uuid]) }}" method="POST" class="add-btn delete">
                                     @csrf
-                                    <button type="button" onclick="onClip('{{ asset('storage/' . $media->file) }}')" class="btn btn-info text-white btn-sm" title="Copiar Token"><i class="ri-file-copy-line"></i></button>
+                                    <button type="button" onclick="onClip('{{ asset('storage/' . $media->file) }}')" class="btn btn-info text-white btn-sm" title="Copiar URL"><i class="ri-file-copy-line"></i></button>
                                     <button type="submit" class="btn btn-danger btn-sm" title="Excluir Mídia"><i class="ri-delete-bin-line"></i></button>
                                 </form>
                             </div>
@@ -109,5 +101,5 @@
             </div>
         </div>
     </div>
-
+    
 @endsection

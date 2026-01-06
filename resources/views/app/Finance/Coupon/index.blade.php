@@ -83,7 +83,7 @@
                         </div>
                         <div class="modal-footer btn-group">
                             <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal"> Fechar </button>
-                            <button type="submit" class="btn btn-success">Confirmar</button>
+                            <button type="submit" class="btn btn-dark">Confirmar</button>
                         </div>
                     </div>
                 </div>
@@ -154,7 +154,7 @@
                         </div>
                         <div class="modal-footer btn-group">
                             <button type="button" class="btn btn-outline-dark" data-bs-dismiss="modal"> Fechar </button>
-                            <button type="submit" class="btn btn-success">Pesquisar</button>
+                            <button type="submit" class="btn btn-dark">Pesquisar</button>
                         </div>
                     </div>
                 </div>
@@ -240,8 +240,9 @@
                                 </div>
                                 <form action="{{ route('deleted-coupon', ['uuid' => $coupon->uuid]) }}" method="POST" class="add-btn delete">
                                     @csrf
-                                    <button type="button" class="btn btn-success text-white btn-sm" title="Editar Fatura" data-bs-toggle="modal" data-bs-target="#updatedModal{{ $coupon->uuid }}"><i class="ri-menu-search-line"></i></button>
-                                    <button type="submit" class="btn btn-danger btn-sm" title="Excluir Fatura"><i class="ri-delete-bin-line"></i></button>
+                                    <button type="button" class="btn btn-outline-dark btn-sm" title="Copiar Código" onclick="onClip('{{ $coupon->code }}')"><i class="ri-file-copy-line"></i></button>
+                                    <button type="button" class="btn btn-outline-dark btn-sm" title="Editar CUPOM" data-bs-toggle="modal" data-bs-target="#updatedModal{{ $coupon->uuid }}"><i class="ri-menu-search-line"></i></button>
+                                    <button type="submit" class="btn btn-outline-dark btn-sm" title="Excluir CUPOM"><i class="ri-delete-bin-line"></i></button>
                                 </form>
                             </div>
                         </div>

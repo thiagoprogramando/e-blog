@@ -1,11 +1,15 @@
 @extends('app.layout')
 @section('content')
 
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/quill/typography.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/quill/katex.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/vendor/libs/quill/editor.css') }}"/>
+
     <div class="col-12 col-sm-12 col-md-12 col-lg-12">
         <div class="kanban-add-new-board mb-5">
             <a href="#" class="kanban-add-board-btn" for="kanban-add-board-input" data-bs-toggle="modal" data-bs-target="#createdModal">
                 <i class="ri-add-line"></i>
-                <span class="align-middle">Adicionar</span>
+                <span class="align-middle">Adicionar News Letter</span>
             </a>
             <a href="#" class="kanban-add-board-btn" for="kanban-add-board-input" data-bs-toggle="modal" data-bs-target="#filterModal">
                 <i class="ri-add-line"></i>
@@ -14,12 +18,12 @@
         </div>
 
         <div class="modal fade" id="createdModal" tabindex="-1" aria-hidden="true">
-            <form action="{{ route('created-letter') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('created-letter') }}" method="POST" enctype="multipart/form-data" id="createdLetter">
                 @csrf
-                <div class="modal-dialog" role="document">
+                <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" id="exampleModalLegenda1">Dados</h4>
+                            <h4 class="modal-title" id="exampleModalLegenda1">News Letter</h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
@@ -27,32 +31,31 @@
                                 <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-2">
                                     <div class="form-floating form-floating-outline">
                                         <input type="text" name="title" id="title" class="form-control" placeholder="Nome" required/>
-                                        <label for="title">Nome</label>
+                                        <label for="title">Título</label>
                                     </div>
                                 </div>
-                                <div class="col-12 col-sm-12 col-md-12 col-lg-12">
-                                    <div class="form-floating form-floating-outline mb-2">
-                                        <textarea class="form-control h-px-100 editor" name="description" id="description" placeholder="Descrição"></textarea>
-                                        <label for="description">Descrição</label>
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-2">
+                                    <div class="form-floating form-floating-outline">
+                                        <input type="text" name="subject" id="subject" class="form-control" placeholder="Nome" required/>
+                                        <label for="subject">Assunto</label>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-12 col-lg-12 mb-2">
+                                    <div class="full-editor">
+                                        <h6>Conteúdo da News Letter</h6>
+                                    </div>
+                                    <textarea name="content" id="content" hidden></textarea>
+                                </div>
+                                <div class="col-12 col-sm-12 col-md-6 col-lg-6 mb-2">
+                                    <div class="form-floating form-floating-outline">
+                                        <input type="file" id="attachments" name="attachments[]" class="form-control" multiple placeholder="Anexos"/>
+                                        <label for="attachments">Anexos</label>
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-12 col-md-6 col-lg-6 mb-2">
                                     <div class="form-floating form-floating-outline">
-                                        <input type="text" id="value" name="value" class="form-control money" oninput="maskValue(this)" placeholder="Valor"/>
-                                        <label for="value">Valor</label>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-sm-12 col-md-6 col-lg-6 mb-2">
-                                    <div class="form-floating form-floating-outline">
-                                        <div class="select2-primary">
-                                            <select name="type" id="type" class="select2 form-select">
-                                                <option value="free">Opções</option>
-                                                <option value="signature">Assinatura</option>
-                                                <option value="free">Gratuito</option>
-                                                <option value="private">Privado</option>
-                                            </select>
-                                        </div>
-                                        <label for="type">Tipo</label>
+                                        <input type="datetime-local" id="scheduled_for" name="scheduled_for" class="form-control" placeholder="Envio"/>
+                                        <label for="scheduled_for">Envio</label>
                                     </div>
                                 </div>
                             </div>
@@ -128,7 +131,6 @@
                                 </div>
                                 <form action="{{ route('deleted-letter', ['uuid' => $letter->uuid]) }}" method="POST" class="add-btn delete">
                                     @csrf
-                                    <button type="button" onclick="onClip('{{ route('register-lead', ['uuid' => $letter->uuid]) }}')" class="btn btn-info text-white btn-sm" title="Copiar Link do Grupo"><i class="ri-file-copy-line"></i></button>
                                     <button type="button" class="btn btn-success text-white btn-sm" title="Editar Grupo" data-bs-toggle="modal" data-bs-target="#updatedModal{{ $letter->uuid }}"><i class="ri-menu-search-line"></i></button>
                                     <button type="submit" class="btn btn-danger btn-sm" title="Excluir"><i class="ri-delete-bin-line"></i></button>
                                 </form>
@@ -195,5 +197,68 @@
             </div>
         </div>
     </div>
+
+    <script src="{{ asset('assets/vendor/libs/quill/katex.js') }}"></script>
+    <script src="{{ asset('assets/vendor/libs/quill/quill.js') }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fullToolbar = [
+                [
+                    { font: [] },
+                    { size: [] }
+                ],
+                ['bold', 'italic', 'underline', 'strike'],
+                    [
+                    { color: [] },
+                    { background: [] }
+                ],
+                [
+                    { script: 'super' },
+                    { script: 'sub' }
+                ],
+                [
+                    { header: '1' },
+                    { header: '2' },
+                    'blockquote',
+                    'code-block'
+                ],
+                [
+                    { list: 'ordered' },
+                    { list: 'bullet' },
+                    { indent: '-1' },
+                    { indent: '+1' }
+                ],
+                [{ direction: 'rtl' }],
+                ['link', 'image', 'video', 'formula'],
+                ['clean']
+            ];
+
+            window.editor = new Quill('.full-editor', {
+                bounds: '.full-editor',
+                placeholder: 'Digite o conteúdo da News Letter...',
+                modules: {
+                    formula: true,
+                    toolbar: fullToolbar,
+                    imageResize: {
+                        modules: [ 'Resize', 'DisplaySize', 'Toolbar' ]
+                    }
+                },
+                theme: 'snow'
+            });
+        });
+
+        document.getElementById('createdLetter').addEventListener('submit', function (e) {
+
+            const titleHTML     = window.editor.root.innerHTML.trim();
+            const contentText   = window.editor.getText().trim();
+            document.getElementById('content').value = contentText;
+
+            if (titleText === '') {
+                e.preventDefault();
+                Swal.fire({ icon: 'warning', title: 'Informe um conteúdo', text: 'É necessário informar um texto para o Conteúdo!', confirmButtonText: 'Ok', customClass: { confirmButton: 'btn btn-warning' }, buttonsStyling: false });
+                return;
+            }
+        });
+    </script>
 
 @endsection

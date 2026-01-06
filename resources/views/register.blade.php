@@ -3,7 +3,7 @@
         <div class="position-relative">
             <div class="authentication-wrapper authentication-basic container-p-y p-4 p-sm-0">
                 <div class="authentication-inner py-6">
-                    <div class="card p-md-7 p-1">
+                    <div class="card p-1">
                         <div class="app-brand justify-content-center mt-5 text-center">
                             <a href="" class="app-brand-link d-flex flex-column align-items-center gap-2">
                                 <span>
@@ -58,10 +58,10 @@
                                                         <input name="plan_id" class="form-check-input" type="radio" value="{{ $plan->uuid }}" id="plan_id"/>
                                                         <span class="custom-option-header">
                                                             <span class="h6 mb-0">{{ $plan->title }}</span>
-                                                            <small class="text-muted">R$ {{ number_format($plan->value, 2, ',', '.') }}</small>
+                                                            
                                                         </span>
                                                         <span class="custom-option-body">
-                                                            <small>{{ $plan->caption }}</small>
+                                                            <small class="text-muted">R$ {{ number_format($plan->value, 2, ',', '.') }}/{{ $plan->caption }}</small>
                                                         </span>
                                                     </label>
                                                 </div>
