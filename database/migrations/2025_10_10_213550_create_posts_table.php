@@ -24,7 +24,7 @@ return new class extends Migration {
             $table->text('meta_description')->nullable();
             $table->bigInteger('views')->default(0);
             $table->bigInteger('likes')->default(0);
-            $table->timestamps('published_at')->nullable();
+            $table->timestamp('published_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
