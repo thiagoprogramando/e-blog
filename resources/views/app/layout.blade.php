@@ -273,18 +273,18 @@
                                         </ul>
                                     </li> --}}
 
-                                    <li class="menu-item">
+                                    {{-- <li class="menu-item">
                                         <a href="{{ route('app') }}" class="menu-link menu-toggle">
                                             <i class="menu-icon tf-icons ri-puzzle-line"></i>
                                             <div data-i18n="Integrações">Integrações</div>
                                         </a>
                                         <ul class="menu-sub">
-                                            {{-- <li class="menu-item">
+                                            <li class="menu-item">
                                                 <a href="{{ route('emails') }}" class="menu-link">
                                                     <i class="menu-icon tf-icons ri-mail-line"></i>
                                                     <div data-i18n="E-mails">E-mails</div>
                                                 </a>
-                                            </li> --}}
+                                            </li> 
                                             <li class="menu-item">
                                                 <a href="{{ route('tokens') }}" class="menu-link">
                                                     <i class="menu-icon tf-icons ri-fingerprint-line"></i>
@@ -292,7 +292,7 @@
                                                 </a>
                                             </li>
                                         </ul>
-                                    </li>
+                                    </li> --}}
 
                                     @if (Auth::user()->role === 'admin')
                                         <li class="menu-item">

@@ -45,7 +45,7 @@ class MediaController extends Controller {
         $media = new Media();
         $media->uuid        = $uuid;
         $media->user_id     = Auth::id();
-        $media->company_id  = Auth::user()->company_id ?? Auth::id();
+        $media->company_id  = Auth::user()->company_id ?? Auth::user()->uuid;
         $media->title       = $request->title ?? $file->getClientOriginalName();
         $media->file        = $path;
         if ($media->save()) {

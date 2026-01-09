@@ -9,7 +9,7 @@
         <div class="kanban-add-new-board mb-5">
             <a href="#" class="kanban-add-board-btn" for="kanban-add-board-input" data-bs-toggle="modal" data-bs-target="#createdModal">
                 <i class="ri-add-line"></i>
-                <span class="align-middle">Adicionar News Letter</span>
+                <span class="align-middle">Adicionar</span>
             </a>
             <a href="#" class="kanban-add-board-btn" for="kanban-add-board-input" data-bs-toggle="modal" data-bs-target="#filterModal">
                 <i class="ri-add-line"></i>

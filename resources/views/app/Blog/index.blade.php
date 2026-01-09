@@ -5,11 +5,11 @@
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/quill/katex.css') }}" />
     <link rel="stylesheet" href="{{ asset('assets/vendor/libs/quill/editor.css') }}"/>
 
-    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="col-12 col-sm-12 col-md-8 col-lg-8">
         <div class="kanban-add-new-board mb-5">
             <a class="kanban-add-board-btn" for="kanban-add-board-input" data-bs-toggle="modal" data-bs-target="#createdModal">
                 <i class="ri-add-line"></i>
-                <span class="align-middle">Novo POST</span>
+                <span class="align-middle">Adicionar</span>
             </a>
             <label class="kanban-add-board-btn" for="kanban-add-board-input" data-bs-toggle="modal" data-bs-target="#filterModal">
                 <i class="ri-filter-line"></i>
@@ -185,8 +185,8 @@
                                 </div>
                                 <form action="{{ route('deleted-post', ['uuid' => $post->uuid]) }}" method="POST" class="add-btn delete">
                                     @csrf
-                                    <a href="{{ route('post', ['uuid' => $post->uuid]) }}" class="btn btn-success text-white btn-sm" title="Acessar Conteúdo"><i class="ri-menu-search-line"></i></a>
-                                    <button type="submit" class="btn btn-danger btn-sm" title="Excluir Conteúdo"><i class="ri-delete-bin-line"></i></button>
+                                    <a href="{{ route('post', ['uuid' => $post->uuid]) }}" class="btn btn-outline-dark btn-sm" title="Acessar Conteúdo"><i class="ri-menu-search-line"></i></a>
+                                    <button type="submit" class="btn btn-outline-dark btn-sm" title="Excluir Conteúdo"><i class="ri-delete-bin-line"></i></button>
                                 </form>
                             </div>
                         </div>

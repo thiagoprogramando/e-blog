@@ -14,6 +14,12 @@
                     </div>
                     <div class="col-12 mb-3">
                         <div class="form-floating form-floating-outline">
+                            <input type="text" class="form-control" placeholder="API KEY:" value="{{ $user->uuid }}" readonly onclick="onClip('{{ $user->uuid }}')"/>
+                            <label for="name">API KEY:</label>
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <div class="form-floating form-floating-outline">
                             <input type="text" name="name" id="name" class="form-control" placeholder="Nome:" value="{{ $user->name }}"/>
                             <label for="name">Nome:</label>
                         </div>

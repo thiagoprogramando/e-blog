@@ -12,7 +12,7 @@ class PostController extends Controller {
     
     public function index(Request $request) {
 
-        $query = Post::query();
+        $query = Post::where('company_id', Auth::user()->company_id ?? Auth::user()->uuid);
 
         if (!empty($request->title)) {
             $query->where('title', 'like', '%' . $request->title . '%');
@@ -51,7 +51,7 @@ class PostController extends Controller {
 
         $post                       = new Post();
         $post->uuid                 = Str::uuid();
-        $post->company_id           = Auth::user()->company_id ?? Auth::user()->id;
+        $post->company_id           = Auth::user()->company_id ?? Auth::user()->uuid;
         $post->created_by           = Auth::user()->id;
         $post->title                = $request->title;
         $post->body                 = $request->body;

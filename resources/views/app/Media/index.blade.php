@@ -88,8 +88,8 @@
                                 </div>
                                 <form action="{{ route('deleted-media', ['uuid' => $media->uuid]) }}" method="POST" class="add-btn delete">
                                     @csrf
-                                    <button type="button" onclick="onClip('{{ asset('storage/' . $media->file) }}')" class="btn btn-info text-white btn-sm" title="Copiar URL"><i class="ri-file-copy-line"></i></button>
-                                    <button type="submit" class="btn btn-danger btn-sm" title="Excluir Mídia"><i class="ri-delete-bin-line"></i></button>
+                                    <button type="button" onclick="onClip('{{ asset('storage/' . $media->file) }}')" class="btn btn-outline-dark btn-sm" title="Copiar URL"><i class="ri-file-copy-line"></i></button>
+                                    <button type="submit" class="btn btn-outline-dark btn-sm" title="Excluir Mídia"><i class="ri-delete-bin-line"></i></button>
                                 </form>
                             </div>
                         </div>

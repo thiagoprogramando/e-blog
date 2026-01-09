@@ -11,7 +11,8 @@ return new class extends Migration {
             $table->id();
             $table->uuid('uuid')->unique();
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
-            $table->foreignId('company_id')->constrained('users')->cascadeOnDelete();
+            $table->uuid('company_id');
+            $table->foreign('company_id')->references('uuid')->on('users')->cascadeOnDelete();
             $table->foreignId('group_id')->nullable()->constrained('groups')->nullOnDelete();
             $table->string('name');
             $table->string('email')->nullable();

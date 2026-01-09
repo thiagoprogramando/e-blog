@@ -10,7 +10,8 @@ return new class extends Migration {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
-            $table->string('company_id');
+            $table->uuid('company_id');
+            $table->foreign('company_id')->references('uuid')->on('users')->cascadeOnDelete();
             $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
             $table->string('photo')->nullable();
             $table->string('title');
@@ -23,7 +24,7 @@ return new class extends Migration {
             $table->text('meta_description')->nullable();
             $table->bigInteger('views')->default(0);
             $table->bigInteger('likes')->default(0);
-            $table->date('published_at')->nullable();
+            $table->timestamps('published_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
